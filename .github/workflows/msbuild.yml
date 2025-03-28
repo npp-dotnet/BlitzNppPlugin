@@ -7,7 +7,6 @@ name: MSBuild
 
 on:
   push:
-    branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
 
@@ -59,10 +58,12 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
            generate_release_notes: true
-           prerelease: false
+           prerelease: true
            draft: false
-           files: "src/vs/x64/Release/BlitzSearch-v${{ env.DLL_VERSION }}-x64.zip"
-           tag_name: "InitialRelease"
+           files: |
+             src/vs/x64/Release/BlitzSearch-v${{ env.DLL_VERSION }}-x64.zip
+             src/vs/x64/Release/BlitzSearch.dll
+           tag_name: "v${{ env.DLL_VERSION }}"
 
     - name: SHA256
       if: env.BUILD_CONFIGURATION == 'Release'
